@@ -1,7 +1,7 @@
 {
 	"name": "angular-datetimepicker-custom",
 	"version": "1.0.0",
-	"main": ["./pikaday/*", "./datetimepicker.min.js"],
+	"main": ["./pikaday/*", "./datetimepicker.js"],
 	"authors": [
 		"Toni Chaz <toni.chaz@hotmail.com>",
 		"Hugo Carmona <hugocarmona.ro@gmail.com>"
