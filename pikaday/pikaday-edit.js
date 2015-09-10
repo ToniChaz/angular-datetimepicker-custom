@@ -206,13 +206,23 @@
         use24hour: false,
 
         // internationalization
-        i18n: {
-            previousMonth : 'Previous Month',
-            nextMonth     : 'Next Month',
-            months        : ['January','February','March','April','May','June','July','August','September','October','November','December'],
-            weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-            weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-        },
+        lang: 'es', // The initial language selected
+
+        i18n: {'es':{
+                    previousMonth : 'Previo Mes',
+                    nextMonth     : 'Siguiente Mes',
+                    months        : ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    weekdays      : ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sabado'],
+                    weekdaysShort : ['Dom','Lun','Mar','Mie','Jue','Vie','Sab']
+                },
+                'en': {
+                    previousMonth : 'Previous Month',
+                    nextMonth     : 'Next Month',
+                    months        : ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                    weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                    weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+                }
+            },
 
         // callback function
         onSelect: null,
@@ -231,7 +241,7 @@
         while (day >= 7) {
             day -= 7;
         }
-        return abbr ? opts.i18n.weekdaysShort[day] : opts.i18n.weekdays[day];
+        return abbr ? opts.i18n[opts.lang].weekdaysShort[day] : opts.i18n[opts.lang].weekdays[day];
     },
 
     renderDay = function(i, isSelected, isToday, isDisabled, isEmpty)
@@ -287,9 +297,9 @@
             arr.push('<option value="' + i + '"' +
                 (i === month ? ' selected': '') +
                 ((isMinYear && i < opts.minMonth) || (isMaxYear && i > opts.maxMonth) ? 'disabled' : '') + '>' +
-                opts.i18n.months[i] + '</option>');
+                opts.i18n[opts.lang].months[i] + '</option>');
         }
-        html += '<div class="pika-label">' + opts.i18n.months[month] + '<select class="pika-select pika-select-month">' + arr.join('') + '</select></div>';
+        html += '<div class="pika-label">' + opts.i18n[opts.lang].months[month] + '<select class="pika-select pika-select-month">' + arr.join('') + '</select></div>';
 
         if (isArray(opts.yearRange)) {
             i = opts.yearRange[0];
@@ -314,8 +324,8 @@
             next = false;
         }
 
-        html += '<button class="pika-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + opts.i18n.previousMonth + '</button>';
-        html += '<button class="pika-next' + (next ? '' : ' is-disabled') + '" type="button">' + opts.i18n.nextMonth + '</button>';
+        html += '<button class="pika-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + opts.i18n[opts.lang].previousMonth + '</button>';
+        html += '<button class="pika-next' + (next ? '' : ' is-disabled') + '" type="button">' + opts.i18n[opts.lang].nextMonth + '</button>';
 
         return html += '</div>';
     },
@@ -665,21 +675,20 @@
                 this.setDate(this._d);
             }
         },
-		
-		/**
-		//luke-edit
-		set the current time selection
-		*/
-		setTimeMoment: function(time) {
-			if (hasMoment && moment.isMoment(time)) {
-				// console.log(time.hours()+' '+time.minutes()+' '+time.seconds());
-				if (this._d) {
-					this._d.setHours(time.hours(), time.minutes(), time.seconds());
-					this.setDate(this._d);
-				}
+        /**
+        //luke-edit
+        set the current time selection
+        */
+        setTimeMoment: function(time) {
+            if (hasMoment && moment.isMoment(time)) {
+                // console.log(time.hours()+' '+time.minutes()+' '+time.seconds());
+                if (this._d) {
+                    this._d.setHours(time.hours(), time.minutes(), time.seconds());
+                    this.setDate(this._d);
+                }
             }
-		},
-		//end: luke-edit
+        },
+        //end: luke-edit
 
         /**
          * set the current selection
@@ -879,7 +888,7 @@
             /*if (top + height > viewportHeight + scrollTop) {
                 top = field.offsetTop - height;
             }*/
-            this.el.style.cssText = 'position:absolute;left:' + (left - 40) + 'px;top:' + (top - 100) + 'px;';
+            this.el.style.cssText = 'position:absolute;left:' + (left - 35) + 'px;top:' + (top - 80) + 'px;';
         },
 
         /**
