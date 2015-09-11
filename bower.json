@@ -34,7 +34,7 @@
     "angular": "~1.4.5",
     "angular-route": "~1.4.5",
     "moment": "~2.10.6",
-    "pikaday": "git@github.com:dbushell/Pikaday.git#~1.3.3"
+    "pikaday-time": "git@github.com:owenmead/Pikaday.git#~1.3.3"
   },
   "devDependencies": {},
   "resolutions": {

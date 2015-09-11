@@ -9,7 +9,9 @@ angular.module('daTiPi')
 	$scope.opts = {
 		pikaday: {
 			firstDay: 1,	//start on Monday
-			showTime: true	//show timepicker as well
+			showTime: false,
+			showSeconds: true,
+			use24hour: true
 		}
 	};
 

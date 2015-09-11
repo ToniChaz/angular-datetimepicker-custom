@@ -50,19 +50,11 @@ angular.module('angular-datetimepicker-custom', [])
 			});
 			
 			var html ="<div class='" + class1 + "'>";
-				if (type === 'pikaday') {
-					html += "<input type='datetime' placeholder='" + attrs.placeholder + "' " + customAttrs + " ";		//NOTE: do NOT use ng-model here since we want the displayed value to potentially be DIFFERENT than the returned (ngModel) value
-					if(attrs.ngClick) {
-						html +="ng-click='ngClick()' ";
-					}
-					html +="/>";
-				} else if(type == 'forge') {
-					html +="<input type='datetime-local' placeholder='"+attrs.placeholder+"' "+customAttrs+" ";		//NOTE: do NOT use ng-model here since we want the displayed value to potentially be DIFFERENT than the returned (ngModel) value (this especially breaks iOS native datetime input display)		//UPDATE for iOS7 - need to use 'datetime-local' since 'datetime' input type is no longer supported..
-					if(attrs.ngClick) {
-						html +="ng-click='ngClick()' ";
-					}
-					html +="/>";
+				html += "<input type='datetime' placeholder='" + attrs.placeholder + "' " + customAttrs + " ";		//NOTE: do NOT use ng-model here since we want the displayed value to potentially be DIFFERENT than the returned (ngModel) value
+				if(attrs.ngClick) {
+					html +="ng-click='ngClick()' ";
 				}
+				html +="/>";
 				html+="</div>";
 			
 			//copy over to attrs so can access later
@@ -73,11 +65,11 @@ angular.module('angular-datetimepicker-custom', [])
 			
 		link: function(scope, element, attrs) {			
 			//if was in an ng-repeat, they'll have have the same compile function so have to set the id here, NOT in the compile function (otherwise they'd all be the same..)
-			if(scope.opts.id !==undefined) {
+			if (scope.opts.id !==undefined) {
 				attrs.id =scope.opts.id;
 			}
-			else if(attrs.id ===undefined) {
-				attrs.id ="datetimepicker"+Math.random().toString(36).substring(7);
+			else if (attrs.id ===undefined) {
+				attrs.id ="datetimepicker" + Math.random().toString(36).substring(7);
 			}
 			//update the OLD name with the NEW name
 			element.find('input').attr('id', attrs.id);
@@ -85,7 +77,7 @@ angular.module('angular-datetimepicker-custom', [])
 			var triggerSkipSelect = true;		//trigger to avoid validating, etc. on setting initial/default value			
 			
 			// Pikaday
-			var defaultPikadayOpts ={
+			var defaultPikadayOpts = {
 				field: document.getElementById(attrs.id),
 				onSelect: function(date) {
 					onSelectDate(date);
@@ -101,13 +93,13 @@ angular.module('angular-datetimepicker-custom', [])
 				scope.opts.pikaday = {};
 			}
 
-			scope.opts.pikaday.format =scope.opts.formatDisplay; //overwrite with passed in (or default) format
-			var pikadayOpts =angular.extend(defaultPikadayOpts, scope.opts.pikaday);
+			scope.opts.pikaday.format = scope.opts.formatDisplay; //overwrite with passed in (or default) format
+			var pikadayOpts = angular.extend(defaultPikadayOpts, scope.opts.pikaday);
 			
 			var picker = new Pikaday(pikadayOpts);
 			
 			//set initial value
-			if(scope.ngModel) {
+			if (scope.ngModel) {
 				setModelVal(scope.ngModel);
 			}	
 			
@@ -135,20 +127,7 @@ angular.module('angular-datetimepicker-custom', [])
 				picker.setMoment(moment(dateOnly, dateFormat));		//this works (isn't affected by timezone offset)
 				// picker.setTime(scope.ngModel);		//doesn't work; nor does picker.setTime([hour], [minute], [second]);
 				picker.setTimeMoment(moment(timeOnly, timeFormat));
-			}
-			
-			/**
-			Allow updating value from outside directive ($watch doesn't work since it will fire infinitely from within the directive when a date/time is chosen so have to use a skip trigger or have to use $on instead to make it more selective. $on seems easier though it does require setting an scope.opts.id value)
-			@method $scope.$on('jrgDatetimepickerUpdateVal',..
-			@param {Object} params
-				@param {String} instId
-				@param {String} val Correctly formatted date(time) string (must match scope.opts.formatModel) to set ngModel to
-			*/
-			scope.$on('datetimepickerUpdateVal', function(evt, params) {
-				if(scope.opts.id !==undefined && params.instId !==undefined && scope.opts.id ==params.instId) {		//only update if the correct instance
-					setModelVal(params.val);
-				}
-			});
+			}			
 			
 			/**
 			@method onSelectDate
